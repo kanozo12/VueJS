@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+    <style>
+        .human-enter-active, .human-leave-active {
+            transition:all 1s;
+        }
+
+        .human-enter, .human-leave-to {
+            opacity: 0;
+            transform:translateX(-40px);
+        }
+
+        .human-leave-active {
+            position: absolute;
+        }
+        .human-move {
+            transition: transform 1s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{ msg }}</h1>
+        <transition-group name="human" tag="ul">
+            <li v-for="item in list" :key="item.id">
+                {{item.name}} 은 나이가 {{item.age}}
+            </li>
+        </transition-group>
+        <button @click="remove">삭제</button>
+        <button @click="shuffle">섞기</button>
+        <button @click="input">삽입</button>
+    </div>
+    <script>
+        let app = new Vue({
+            el: "#app",
+            data: {
+                msg: "Hello Vue.js with YYDHS",
+                list:[
+                    {id:1, name:"최선한", age:38},
+                    {id:2, name:"고영민", age:18},
+                    {id:3, name:"문준원", age:17},
+                    {id:4, name:"소현진", age:18},
+                    {id:5, name:"정성휘", age:18}
+                    
+                ],
+                current: 6
+            },
+            methods:{
+                remove() {
+                    let idx = Math.floor(Math.random() * app.list.length);
+                    this.list.splice(idx, 1);        
+                },
+                shuffle(){
+                    this.list = _.shuffle(this.list);
+                },
+                input() {
+                    app.list.push({id: this.current++, name:"왕휘균", age:18});
+       
+                }
+            }
+            
+        });
+
+    </script>
+</body>
+
+</html>

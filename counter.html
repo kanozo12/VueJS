@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{ cnt }}</p>
+        <p>{{ msg }}</p>
+        <button @click.once="inc(2, `안녕하세요`, $event)">증가</button>
+        
+    </div>
+
+    <script>
+        //vue API
+        //$mount, $route, $router, $event, $param
+        let app = new Vue({
+            el: "#app",
+            data: {
+               cnt:0,
+               msg: 'Hello World'
+            },
+            methods: {
+                link() {
+                    console.log("링크클릭");
+                },
+
+                inc(value, msg, e) {
+                    this.cnt += value;
+                    this.msg = msg;
+                    console.log(e);
+                },
+                // 프로퍼게이션 : 자식을 클릭하면 부모로 이벤트가 전파
+                //     -멈출때 : stop
+            }
+        })
+    </script>
+</body>
+</html>

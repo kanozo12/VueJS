@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>클래스와 스타일 바인딩</title>
+    <script src="https://unpkg.com/vue"></script>
+    <style>
+        .active {
+            background-color: rgba(0,255, 230, 0.7);
+        }
+        .text-danger {
+            color:red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="red" :class="objClass">액티브 클래스</div>
+        <button @click="doActive">Do</button>
+    </div>
+    <script>
+        let app = new Vue({
+            el:"#app",
+            data:{
+                isActive:false,
+                isError:false
+            },
+            methods:{
+                doActive(){
+                    this.isActive = !this.isActive;
+                    this.isError = !this.isError;
+                }
+            },
+            computed:{
+                objClass(){
+                    return {active:this.isActive, 'text-danger':this.isError};
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{ msg }}</p>
+        <button @click="reverse">뒤집기</button>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: "#app",
+            data: {
+                msg:"안녕하세요 Vue.js 입니다",
+            },
+            methods: {
+                reverse() {
+                    this.msg = this.msg.split("").reverse().join("");
+                }
+            }
+        })
+    </script>
+</body>
+</html>

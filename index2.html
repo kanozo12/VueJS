@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="item in filterList">
+                {{item.name}} 은 나이가 {{item.age}} 입니다.
+            </li>
+        </ul>
+        <button @click="filterToggle">필터링</button>
+    </div>
+    <script>
+        let app = new Vue({
+            el:"#app",
+            data:{
+                list:[
+                    {id:1, name:'최선한', age:38},
+                    {id:2, name:'고영민', age:18},
+                    {id:3, name:'소현진', age:18},
+                    {id:4, name:'문준원', age:17},
+                ],
+                age: 18
+            },
+            methods:{
+                filterToggle() {
+                    console.log("toggle");
+                    this.age = this.age == 18 ? 0 : 18;
+                    // if(this.age == 18) {
+                    //     this.age == 0;
+                    // } else {
+                    //     this.age == 18;
+                    // }
+                }
+            },
+            computed:{
+                filterList(){
+                    return this.list.filter(x => x.age >= this.age);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

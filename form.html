@@ -46,25 +46,26 @@
     <div id="app">
         <form>
             아이디 : <input type="text" v-model="id"><br>
+            <transition name="fade">
+                <p v-if="flags[0]">{{ errormsg[0] }}</p>
+            </transition>
             이름 : <input type="text" v-model="name"><br>
+            <transition name="fade">
+                <p v-if="flags[1]">{{ errormsg[1] }}</p>
+            </transition>
+            
             <div>
                 취미<br>
                 <label for="basket">농구</label>
                 <input type="checkbox" value="농구" id="basket" v-model="hobbies">
-                <transition name="fade">
-                    <p v-if="isError1">{{ errormsg[0] }}</p>
-                </transition>
 
                 <label for="foot">축구</label>
                 <input type="checkbox" value="축구" id="foot" v-model="hobbies">
-                <transition name="fade">
-                    <p v-if="isError2">{{ errormsg[1] }}</p>
-                </transition>
 
                 <label for="base">야구</label>
                 <input type="checkbox" value="야구" id="base" v-model="hobbies">
                 <transition name="fade">
-                    <p v-if="isError3">{{ errormsg[2] }}</p>
+                    <p v-if="flags[2]">{{ errormsg[2] }}</p>
                 </transition>
             </div>
             <button @click.prevent="submit">가입</button>
@@ -87,28 +88,26 @@
                 hobbies:[],
                 popup: false,
                 msg: "팝업메시지",
-                isError1:false,
-                isError2:false,
-                isError3:false,
+                flags:[false, false, false],
                 errormsg: ["", "", ""]
             },
             methods: {
                 submit() {
-                    this.isError1 = this.isError2 = this.isError3 = false;
+                    this.flags = [false, false, false];
                     if(this.id.length < 5) {
-                        this.isError1 = true;
+                        Vue.set(this.flags, 0, true);
                         this.errormsg[0] = "아이디는 5글자 이상이여야합니다.";
                         return;
                     }
 
                     if(this.name.length < 3 || this.name.length > 5) {
-                        this.isError2 = true;
+                        Vue.set(this.flags, 1, true);
                         this.errormsg[1] = "이름은 3글자 이상 5글자 이내여야합니다.";
                         return;
                     }
 
                     if(this.hobbies.length < 2){
-                        this.isError3 = true;
+                        Vue.set(this.flags, 2, true);
                         this.errormsg[2] = "취미는 2개이상 선택해야 합니다.";
                         return;
                     }

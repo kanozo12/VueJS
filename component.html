@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>콤포넌트 테스트</title>
+    <script src="https://unpkg.com/vue"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            border: 1px solid #555;
+            border-radius: 1rem;
+            padding: 10px;
+        }
+
+        .item {
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .item>.title {
+            font-size: 30px;
+            color: rgba(0, 0, 255, 0.8);
+        }
+
+        .item>.desc {
+            margin-top: 10px;
+            color: #777;
+        }
+
+        .input-form {
+            padding: 20px;
+        }
+
+        .form-control {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            width: 100%;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .long-btn {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid rgba(0, 0, 255, 0.8);
+            background-color: rgba(0, 0, 255, 0.7);
+            color: #fff;
+            border-radius: 0.25rem;
+        }
+
+        .gondr-enter-active, .gondr-leave-active {
+            transition:all 1s;
+        }
+
+        .gondr-enter, .gondr-leave-to {
+            opacity: 0;
+            transform:translateX(-100px);
+        }
+
+        .gondr-leave-active {
+            position:absolute;
+        }
+
+        .gondr-move {
+            transition:transform 1s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1>컴포넌트 테스트입니다.</h1>
+        <div class="container">
+            <transition-group name="gondr" tag="div">
+                <child :data="item" :key="item.id" v-for="(item, idx) in list" @del="del(idx)"></child>
+            </transition-group>
+        </div>
+        <div class="input-form">
+            <input v-model="title" @keydown.enter="send" class="form-control" type="text" placeholder="제목을 입력하세요">
+            <textarea v-model="content" @keydown.ctrl.enter="send" rows="5" class="form-control"
+                placeholder="내용을입력하세요"></textarea>
+            <button @click="send" class="long-btn">입력</button>
+        </div>
+    </div>
+
+    <script>
+        Vue.component('simple-counter', {
+            template: `<button @click="cnt += 1">{{cnt}}</button>`,
+            data() {
+                return { cnt: 0 };
+            }
+        });
+        Vue.component('child', {
+            props: ['data'],
+            template:
+                `<div class="item">
+                <h1 class="title">{{data.title}}</h1>
+                <p class="desc">{{data.desc}}</p>
+                <button @click="del">삭제</button>
+            </div>`,
+            methods: {
+                del() {
+                    this.$emit("del");
+                }
+            }
+        });
+
+        let app = new Vue({
+            el: "#app",
+            data: {
+                title: "",
+                content: "",
+                list: [
+                    { id: 1, title: '제목입니다1.', desc: '내용입니다1.' },
+                    { id: 2, title: '제목입니다2.', desc: '내용입니다2.' },
+                    { id: 3, title: '제목입니다3.', desc: '내용입니다3.' },
+                    { id: 4, title: '제목입니다4.', desc: '내용입니다4.' }
+                ],
+                id:5
+            },
+            methods: {
+                send() {
+                    if (this.title == "" || this.content == "") {
+                        alert("값이 비어있습니다.");
+                        return;
+                    }
+                    this.list.push({ id:this.id++, title: this.title, desc: this.content });
+                },
+                del(idx) {
+                    this.list.splice(idx, 1);
+                }
+            }
+        }) 
+    </script>
+</body>
+
+</html>
